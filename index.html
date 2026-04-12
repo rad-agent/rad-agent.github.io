@@ -123,9 +123,17 @@
       color: var(--text-link);
     }
 
-    /* Hero Banner */
+    /* Hero: solid bar; fade is a fixed-height strip below (avoids tall heroes eating the gradient %) */
     .hero-banner {
-      background: linear-gradient(to bottom, #000517 0%, #000517 94%, var(--bg) 100%);
+      background: #000517;
+    }
+
+    .hero-banner::after {
+      content: '';
+      display: block;
+      height: 64px;
+      background: linear-gradient(to bottom, #000517, var(--bg));
+      pointer-events: none;
     }
 
     .hero-banner .authors,
@@ -141,15 +149,30 @@
     .hero-section {
       max-width: 900px;
       margin: 0 auto;
-      padding: 72px 24px 100px;
+      padding: 72px 24px 48px;
       text-align: center;
     }
 
-    .logo-img {
-      width: 520px;
+    /* Tight vertical crop on 2:1 asset (26% of width ≈ middle ~52% of image height) */
+    .logo-crop {
+      position: relative;
+      width: 100%;
+      max-width: 520px;
+      margin: 0 auto;
+      border-radius: 12px;
+      overflow: hidden;
+      height: 0;
+      padding-bottom: 26%;
+    }
+
+    .logo-crop .logo-img {
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 100%;
       height: auto;
-      margin-bottom: -40px;
-      clip-path: inset(40px 0 40px 0 round 12px);
+      display: block;
     }
 
     .paper-title {
@@ -310,8 +333,8 @@
 <!-- Hero -->
 <div class="hero-banner">
 <section class="hero-section">
-  <div style="text-align: center; margin-bottom: 20px;">
-    <img src="static/images/radagent-logo.png" alt="RadAgent" class="logo-img">
+  <div class="logo-crop">
+    <img src="static/images/radagent-logo.jpg" alt="RadAgent" class="logo-img">
   </div>
 
   <h1 class="paper-title">
