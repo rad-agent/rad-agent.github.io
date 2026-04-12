@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="RadAgent: A tool-using AI agent for stepwise interpretation of chest computed tomography">
+  <meta name="keywords" content="radiology, CT report generation, AI agent, reinforcement learning, tool use, chest CT, vision language model">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RadAgent</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+
+  <meta property="og:site_name" content="RadAgent" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="RadAgent: A tool-using AI agent for stepwise interpretation of chest computed tomography" />
+  <meta property="og:description" content="An RL-based framework for training radiology agents that organize CT report generation as a stepwise and interpretable process." />
+  <meta property="og:url" content="https://rad-agent.github.io/" />
+  <meta property="og:image:width" content="1280" />
+  <meta property="og:image:height" content="720" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="RadAgent: A tool-using AI agent for stepwise interpretation of chest computed tomography" />
+  <meta name="twitter:description" content="An RL-based framework for training radiology agents that organize CT report generation as a stepwise and interpretable process." />
+  <meta name="twitter:url" content="https://rad-agent.github.io/" />
+
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: #1a1a1a;
+      background: #fff;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Hero */
+    .hero-section {
+      max-width: 660px;
+      margin: 0 auto;
+      padding: 72px 24px 40px;
+      text-align: center;
+    }
+
+    .logo-img {
+      width: 420px;
+      height: auto;
+      margin-bottom: 0;
+      border-radius: 12px;
+    }
+
+    .paper-title {
+      font-size: 2.2rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      line-height: 1.3;
+      color: #111;
+      margin: 0 auto 22px;
+    }
+
+    /* Authors */
+    .authors {
+      font-size: 1.05rem;
+      font-weight: 400;
+      color: #333;
+      line-height: 2;
+      margin-bottom: 6px;
+    }
+
+    .authors a {
+      color: #333;
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.2s;
+    }
+
+    .authors a:hover {
+      color: #2563eb;
+      border-bottom-color: #2563eb;
+    }
+
+    .affiliations {
+      font-size: 0.78rem;
+      color: #777;
+      margin-bottom: 4px;
+      letter-spacing: 0.01em;
+      line-height: 1.7;
+    }
+
+    .roles {
+      font-size: 0.82rem;
+      color: #999;
+      margin-bottom: 22px;
+      letter-spacing: 0.01em;
+    }
+
+    /* Text Links */
+    .text-links {
+      font-size: 0.95rem;
+      font-weight: 400;
+      color: #999;
+    }
+
+    .text-links a {
+      color: #333;
+      text-decoration: none;
+      border-bottom: 1px solid #ccc;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .text-links a:hover {
+      color: #2563eb;
+      border-bottom-color: #2563eb;
+    }
+
+    .text-links .sep {
+      margin: 0 8px;
+      color: #ccc;
+    }
+
+    /* Divider */
+    .divider {
+      width: 40px;
+      height: 1px;
+      background: #ddd;
+      margin: 0 auto;
+    }
+
+    /* Abstract */
+    .abstract-section {
+      max-width: 660px;
+      margin: 0 auto;
+      padding: 56px 24px 40px;
+    }
+
+    .section-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #999;
+      margin-bottom: 16px;
+    }
+
+    .abstract-section p {
+      font-size: 0.88rem;
+      line-height: 1.8;
+      color: #444;
+      margin-bottom: 0;
+      font-weight: 300;
+    }
+
+    .abstract-section strong {
+      font-weight: 500;
+      color: #222;
+    }
+
+    /* Citation */
+    .citation-section {
+      max-width: 660px;
+      margin: 0 auto;
+      padding: 40px 24px 64px;
+    }
+
+    .citation-section pre {
+      background: #fafafa;
+      border: 1px solid #eee;
+      border-radius: 6px;
+      padding: 18px 22px;
+      font-size: 0.75rem;
+      line-height: 1.7;
+      overflow-x: auto;
+      color: #555;
+      font-family: 'SF Mono', 'Fira Code', 'Fira Mono', Menlo, monospace;
+    }
+
+    /* Footer */
+    .site-footer {
+      text-align: center;
+      padding: 28px 24px;
+      font-size: 0.72rem;
+      color: #bbb;
+      border-top: 1px solid #f0f0f0;
+    }
+
+    .site-footer a {
+      color: #999;
+      text-decoration: none;
+    }
+
+    .site-footer a:hover {
+      color: #666;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hero-section { padding: 48px 20px 36px; }
+      .abstract-section { padding: 36px 20px; }
+      .citation-section { padding: 36px 20px 56px; }
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- Hero -->
+<section class="hero-section">
+  <div style="text-align: center; margin-bottom: 20px;">
+    <img src="static/images/radagent-logo.png" alt="RadAgent" class="logo-img">
+  </div>
+
+  <h1 class="paper-title">
+    RadAgent: A Tool-Using AI Agent for Stepwise Interpretation of Chest Computed Tomography
+  </h1>
+
+  <div class="authors">
+    M&eacute;lanie Roschewitz<sup>1,2,3</sup>,
+    Yitian Tao<sup>1</sup>,
+    Kenneth Styppa<sup>1</sup>,
+    Jiwoong Sohn<sup>1</sup>,
+    <br>
+    Jean-Benoit Delbrouck<sup>4,5</sup>,
+    Benjamin Gundersen<sup>6</sup>,
+    Christian Bluethgen<sup>4,5</sup>,
+    <br>
+    Bjoern Menze<sup>6</sup>,
+    Farhad Nooralahzadeh<sup>6,7</sup>,
+    Michael Krauthammer<sup>6</sup>,
+    <br>
+    Michael Moor<sup>1,2</sup>
+  </div>
+
+  <div class="affiliations">
+    <sup>1</sup>Dept. of Biosystems Science and Engineering, ETH Zurich<br>
+    <sup>2</sup>ETH AI Center<br>
+    <sup>3</sup>Dept. of Computer Science, ETH Zurich<br>
+    <sup>4</sup>Stanford Center for AI in Medicine and Imaging<br>
+    <sup>5</sup>Dept. of Radiology, Stanford University<br>
+    <sup>6</sup>Dept. of Quantitative Biomedicine, University of Zurich<br>
+    <sup>7</sup>Zurich University of Applied Sciences
+  </div>
+
+  <div class="roles">
+    <!-- roles placeholder -->
+  </div>
+
+  <div class="text-links">
+    <a href="#">Paper</a>
+    <span class="sep">/</span>
+    <a href="#">Code</a>
+    <span class="sep">/</span>
+    <a href="#citation-ref">Citation</a>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- Abstract -->
+<section class="abstract-section">
+  <div class="section-label">Abstract</div>
+  <p>
+    Vision-language models have markedly advanced AI-driven interpretation and reporting of complex medical imaging such as computed tomography (CT). Yet, existing methods largely relegate clinicians to passive observers of final outputs, offering no interpretable reasoning trace for them to inspect, validate, or refine. To address this, we introduce <strong>RadAgent</strong>, an RL-based framework for training radiology agents that organize CT report generation as a stepwise and interpretable process. We instantiate this framework in a 14B-scale language agent whose reports are paired with fully auditable traces of decisions and tool interactions, offering detailed insights into the report's underlying reasoning and decision-making processes. In our experiments, we find that beyond transparency, RadAgent improves chest CT report generation over its 3D VLM backbone counterpart, CT-Chat, across three dimensions, with relative improvements in clinical accuracy of <strong>36.4% and 19.6%</strong> in macro and micro averaged F1, <strong>97.2%</strong> in faithfulness, and <strong>41.9%</strong> in robustness. By structuring the interpretation of chest CT as an explicit, tool-augmented and iterative reasoning trace, RadAgent brings us closer towards transparent and reliable AI for radiology.
+  </p>
+</section>
+
+<div class="divider"></div>
+
+<!-- Citation -->
+<section class="citation-section" id="citation-ref">
+  <div class="section-label">BibTeX</div>
+  <pre><code>@article{roschewitz2026radagent,
+  title={RadAgent: A Tool-Using AI Agent for Stepwise Interpretation of Chest Computed Tomography},
+  author={M{\'e}lanie Roschewitz and Yitian Tao and Kenneth Styppa and Jiwoong Sohn and Jean-Benoit Delbrouck and Benjamin Gundersen and Christian Bluethgen and Bjoern Menze and Farhad Nooralahzadeh and Michael Krauthammer and Michael Moor},
+  year={2026},
+  url={https://rad-agent.github.io/}
+}</code></pre>
+</section>
+
+<!-- Footer -->
+<footer class="site-footer">
+  Template from <a href="https://nerfies.github.io/">Nerfies</a>
+</footer>
+
+</body>
+</html>
