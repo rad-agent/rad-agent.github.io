@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html data-theme="system">
 <head>
   <meta charset="utf-8">
   <meta name="description" content="RadAgent: A tool-using AI agent for stepwise interpretation of chest computed tomography">
@@ -29,27 +29,127 @@
   <style>
     * { box-sizing: border-box; }
 
+    /* ── Light theme (default) ── */
+    :root {
+      --bg: #ffffff;
+      --bg-code: #fafafa;
+      --border-code: #eee;
+      --text: #1a1a1a;
+      --text-title: #111;
+      --text-body: #222;
+      --text-strong: #111;
+      --text-author: #333;
+      --text-affil: #777;
+      --text-role: #999;
+      --text-link: #333;
+      --text-link-hover: #2596be;
+      --text-sep: #ccc;
+      --text-label: #666;
+      --text-code: #333;
+      --text-footer: #bbb;
+      --border-link: #ccc;
+      --border-divider: #ddd;
+      --border-footer: #f0f0f0;
+      --footer-link: #999;
+      --footer-link-hover: #666;
+    }
+
+    /* ── Dark theme ── */
+    [data-theme="dark"] {
+      --bg: #000517;
+      --bg-code: #111827;
+      --border-code: #1e293b;
+      --text: #e2e8f0;
+      --text-title: #f1f5f9;
+      --text-body: #94a3b8;
+      --text-strong: #e2e8f0;
+      --text-author: #cbd5e1;
+      --text-affil: #64748b;
+      --text-role: #64748b;
+      --text-link: #cbd5e1;
+      --text-link-hover: #2596be;
+      --text-sep: #334155;
+      --text-label: #64748b;
+      --text-code: #94a3b8;
+      --text-footer: #475569;
+      --border-link: #475569;
+      --border-divider: #1e293b;
+      --border-footer: #1e293b;
+      --footer-link: #64748b;
+      --footer-link-hover: #94a3b8;
+    }
+
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      color: #1a1a1a;
-      background: #fff;
+      color: var(--text);
+      background: var(--bg);
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
+      transition: background 0.3s, color 0.3s;
     }
+
+    /* ── Theme toggle ── */
+    .theme-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      display: flex;
+      gap: 2px;
+      background: var(--bg-code);
+      border: 1px solid var(--border-code);
+      border-radius: 8px;
+      padding: 3px;
+      z-index: 100;
+    }
+
+    .theme-toggle button {
+      background: none;
+      border: none;
+      padding: 5px 8px;
+      cursor: pointer;
+      border-radius: 6px;
+      font-size: 0.7rem;
+      color: var(--text-role);
+      transition: background 0.2s, color 0.2s;
+      line-height: 1;
+    }
+
+    .theme-toggle button.active {
+      background: var(--border-divider);
+      color: var(--text-title);
+    }
+
+    .theme-toggle button:hover:not(.active) {
+      color: var(--text-link);
+    }
+
+    /* Hero Banner */
+    .hero-banner {
+      background: linear-gradient(to bottom, #000517 0%, #000517 94%, var(--bg) 100%);
+    }
+
+    .hero-banner .authors,
+    .hero-banner .authors a { color: #e8edf4; }
+    .hero-banner .authors a:hover { color: #2596be; border-bottom-color: #2596be; }
+    .hero-banner .affiliations { color: #94a3b8; }
+    .hero-banner .roles { color: #94a3b8; }
+    .hero-banner .text-links a { color: #e8edf4; border-bottom-color: #64748b; }
+    .hero-banner .text-links a:hover { color: #2596be; border-bottom-color: #2596be; }
+    .hero-banner .text-links .sep { color: #475569; }
 
     /* Hero */
     .hero-section {
-      max-width: 660px;
+      max-width: 900px;
       margin: 0 auto;
-      padding: 72px 24px 40px;
+      padding: 72px 24px 100px;
       text-align: center;
     }
 
     .logo-img {
-      width: 420px;
+      width: 520px;
       height: auto;
-      margin-bottom: 0;
-      border-radius: 12px;
+      margin-bottom: -40px;
+      clip-path: inset(40px 0 40px 0 round 12px);
     }
 
     .paper-title {
@@ -57,7 +157,7 @@
       font-weight: 600;
       letter-spacing: -0.02em;
       line-height: 1.3;
-      color: #111;
+      color: #f1f5f9;
       margin: 0 auto 22px;
     }
 
@@ -65,26 +165,26 @@
     .authors {
       font-size: 1.05rem;
       font-weight: 400;
-      color: #333;
+      color: var(--text-author);
       line-height: 2;
       margin-bottom: 6px;
     }
 
     .authors a {
-      color: #333;
+      color: var(--text-author);
       text-decoration: none;
       border-bottom: 1px solid transparent;
-      transition: border-color 0.2s;
+      transition: border-color 0.2s, color 0.2s;
     }
 
     .authors a:hover {
-      color: #2563eb;
-      border-bottom-color: #2563eb;
+      color: var(--text-link-hover);
+      border-bottom-color: var(--text-link-hover);
     }
 
     .affiliations {
       font-size: 0.78rem;
-      color: #777;
+      color: var(--text-affil);
       margin-bottom: 4px;
       letter-spacing: 0.01em;
       line-height: 1.7;
@@ -92,7 +192,7 @@
 
     .roles {
       font-size: 0.82rem;
-      color: #999;
+      color: var(--text-role);
       margin-bottom: 22px;
       letter-spacing: 0.01em;
     }
@@ -101,37 +201,37 @@
     .text-links {
       font-size: 0.95rem;
       font-weight: 400;
-      color: #999;
+      color: var(--text-role);
     }
 
     .text-links a {
-      color: #333;
+      color: var(--text-link);
       text-decoration: none;
-      border-bottom: 1px solid #ccc;
+      border-bottom: 1px solid var(--border-link);
       transition: border-color 0.2s, color 0.2s;
     }
 
     .text-links a:hover {
-      color: #2563eb;
-      border-bottom-color: #2563eb;
+      color: var(--text-link-hover);
+      border-bottom-color: var(--text-link-hover);
     }
 
     .text-links .sep {
       margin: 0 8px;
-      color: #ccc;
+      color: var(--text-sep);
     }
 
     /* Divider */
     .divider {
       width: 40px;
       height: 1px;
-      background: #ddd;
+      background: var(--border-divider);
       margin: 0 auto;
     }
 
     /* Abstract */
     .abstract-section {
-      max-width: 660px;
+      max-width: 900px;
       margin: 0 auto;
       padding: 56px 24px 40px;
     }
@@ -141,39 +241,69 @@
       font-weight: 600;
       letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: #999;
+      color: var(--text-label);
       margin-bottom: 16px;
     }
 
     .abstract-section p {
       font-size: 0.88rem;
       line-height: 1.8;
-      color: #444;
+      color: var(--text-body);
       margin-bottom: 0;
       font-weight: 300;
     }
 
     .abstract-section strong {
       font-weight: 500;
-      color: #222;
+      color: var(--text-strong);
+    }
+
+    /* Figures */
+    .figures-section {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 48px 24px 40px;
+    }
+
+    .figure-block {
+      margin-bottom: 36px;
+    }
+
+    .figure-block img {
+      width: 100%;
+      height: auto;
+      border-radius: 6px;
+    }
+
+    .figure-caption {
+      font-size: 0.82rem;
+      line-height: 1.65;
+      color: var(--text-body);
+      margin-top: 10px;
+      font-weight: 300;
+    }
+
+    .figure-caption strong {
+      font-weight: 500;
+      color: var(--text-strong);
     }
 
     /* Citation */
     .citation-section {
-      max-width: 660px;
+      max-width: 900px;
       margin: 0 auto;
       padding: 40px 24px 64px;
     }
 
     .citation-section pre {
-      background: #fafafa;
-      border: 1px solid #eee;
+      background: var(--bg-code);
+      border: 1px solid var(--border-code);
       border-radius: 6px;
       padding: 18px 22px;
       font-size: 0.75rem;
       line-height: 1.7;
       overflow-x: auto;
-      color: #555;
+      color: var(--text-code);
       font-family: 'SF Mono', 'Fira Code', 'Fira Mono', Menlo, monospace;
     }
 
@@ -182,17 +312,17 @@
       text-align: center;
       padding: 28px 24px;
       font-size: 0.72rem;
-      color: #bbb;
-      border-top: 1px solid #f0f0f0;
+      color: var(--text-footer);
+      border-top: 1px solid var(--border-footer);
     }
 
     .site-footer a {
-      color: #999;
+      color: var(--footer-link);
       text-decoration: none;
     }
 
     .site-footer a:hover {
-      color: #666;
+      color: var(--footer-link-hover);
     }
 
     /* Responsive */
@@ -200,6 +330,7 @@
       .hero-section { padding: 48px 20px 36px; }
       .abstract-section { padding: 36px 20px; }
       .citation-section { padding: 36px 20px 56px; }
+      .theme-toggle { top: 12px; right: 12px; }
     }
   </style>
 </head>
@@ -207,6 +338,7 @@
 <body>
 
 <!-- Hero -->
+<div class="hero-banner">
 <section class="hero-section">
   <div style="text-align: center; margin-bottom: 20px;">
     <img src="static/images/radagent-logo.png" alt="RadAgent" class="logo-img">
@@ -255,8 +387,7 @@
     <a href="#citation-ref">Citation</a>
   </div>
 </section>
-
-<div class="divider"></div>
+</div>
 
 <!-- Abstract -->
 <section class="abstract-section">
@@ -264,6 +395,28 @@
   <p>
     Vision-language models have markedly advanced AI-driven interpretation and reporting of complex medical imaging such as computed tomography (CT). Yet, existing methods largely relegate clinicians to passive observers of final outputs, offering no interpretable reasoning trace for them to inspect, validate, or refine. To address this, we introduce <strong>RadAgent</strong>, an RL-based framework for training radiology agents that organize CT report generation as a stepwise and interpretable process. We instantiate this framework in a 14B-scale language agent whose reports are paired with fully auditable traces of decisions and tool interactions, offering detailed insights into the report's underlying reasoning and decision-making processes. In our experiments, we find that beyond transparency, RadAgent improves chest CT report generation over its 3D VLM backbone counterpart, CT-Chat, across three dimensions, with relative improvements in clinical accuracy of <strong>36.4% and 19.6%</strong> in macro and micro averaged F1, <strong>97.2%</strong> in faithfulness, and <strong>41.9%</strong> in robustness. By structuring the interpretation of chest CT as an explicit, tool-augmented and iterative reasoning trace, RadAgent brings us closer towards transparent and reliable AI for radiology.
   </p>
+</section>
+
+<div class="divider"></div>
+
+<!-- Figures -->
+<section class="figures-section">
+  <div class="section-label">Results</div>
+
+  <div class="figure-block">
+    <img src="static/images/main_results.png" alt="Main results">
+    <p class="figure-caption"><strong>Report generation quality.</strong> RadAgent significantly outperforms CT-Chat across validation, test, and external datasets, with +6.0 macro F1 and +5.5 micro F1 on CT-RATE test (36.4% and 19.6% relative improvement).</p>
+  </div>
+
+  <div class="figure-block">
+    <img src="static/images/faithfulness.png" alt="Faithfulness and robustness">
+    <p class="figure-caption"><strong>Faithfulness and robustness.</strong> Under adversarial prompt hints, RadAgent outperforms CT-Chat on robustness (0.84 vs 0.59) and faithfulness (0.48 vs 0.24), demonstrating more reliable and transparent reasoning.</p>
+  </div>
+
+  <div class="figure-block">
+    <img src="static/images/policy_trace.png" alt="Agent trace example">
+    <p class="figure-caption"><strong>Example agent trace.</strong> RadAgent iteratively verifies findings through sequential tool calls, accumulating evidence into a complete and auditable report.</p>
+  </div>
 </section>
 
 <div class="divider"></div>
@@ -283,6 +436,38 @@
 <footer class="site-footer">
   Template from <a href="https://nerfies.github.io/">Nerfies</a>
 </footer>
+
+<script>
+function setTheme(mode) {
+  localStorage.setItem('theme', mode);
+  applyTheme(mode);
+  document.querySelectorAll('.theme-toggle button').forEach(b => b.classList.remove('active'));
+  document.querySelector('.theme-toggle button[onclick*="' + mode + '"]').classList.add('active');
+}
+
+function applyTheme(mode) {
+  if (mode === 'system') {
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    document.documentElement.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
+  } else {
+    document.documentElement.setAttribute('data-theme', mode);
+  }
+}
+
+// Init
+(function() {
+  const saved = localStorage.getItem('theme') || 'system';
+  applyTheme(saved);
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function() {
+    if (localStorage.getItem('theme') === 'system') applyTheme('system');
+  });
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.theme-toggle button').forEach(b => b.classList.remove('active'));
+    var btn = document.querySelector('.theme-toggle button[onclick*="' + saved + '"]');
+    if (btn) btn.classList.add('active');
+  });
+})();
+</script>
 
 </body>
 </html>
