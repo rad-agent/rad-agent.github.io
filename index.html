@@ -258,36 +258,6 @@
       color: var(--text-strong);
     }
 
-    /* Figures */
-    .figures-section {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 48px 24px 40px;
-    }
-
-    .figure-block {
-      margin-bottom: 36px;
-    }
-
-    .figure-block img {
-      width: 100%;
-      height: auto;
-      border-radius: 6px;
-    }
-
-    .figure-caption {
-      font-size: 0.82rem;
-      line-height: 1.65;
-      color: var(--text-body);
-      margin-top: 10px;
-      font-weight: 300;
-    }
-
-    .figure-caption strong {
-      font-weight: 500;
-      color: var(--text-strong);
-    }
-
     /* Citation */
     .citation-section {
       max-width: 900px;
@@ -395,28 +365,6 @@
   <p>
     Vision-language models have markedly advanced AI-driven interpretation and reporting of complex medical imaging such as computed tomography (CT). Yet, existing methods largely relegate clinicians to passive observers of final outputs, offering no interpretable reasoning trace for them to inspect, validate, or refine. To address this, we introduce <strong>RadAgent</strong>, an RL-based framework for training radiology agents that organize CT report generation as a stepwise and interpretable process. We instantiate this framework in a 14B-scale language agent whose reports are paired with fully auditable traces of decisions and tool interactions, offering detailed insights into the report's underlying reasoning and decision-making processes. In our experiments, we find that beyond transparency, RadAgent improves chest CT report generation over its 3D VLM backbone counterpart, CT-Chat, across three dimensions, with relative improvements in clinical accuracy of <strong>36.4% and 19.6%</strong> in macro and micro averaged F1, <strong>97.2%</strong> in faithfulness, and <strong>41.9%</strong> in robustness. By structuring the interpretation of chest CT as an explicit, tool-augmented and iterative reasoning trace, RadAgent brings us closer towards transparent and reliable AI for radiology.
   </p>
-</section>
-
-<div class="divider"></div>
-
-<!-- Figures -->
-<section class="figures-section">
-  <div class="section-label">Results</div>
-
-  <div class="figure-block">
-    <img src="static/images/main_results.png" alt="Main results">
-    <p class="figure-caption"><strong>Report generation quality.</strong> RadAgent significantly outperforms CT-Chat across validation, test, and external datasets, with +6.0 macro F1 and +5.5 micro F1 on CT-RATE test (36.4% and 19.6% relative improvement).</p>
-  </div>
-
-  <div class="figure-block">
-    <img src="static/images/faithfulness.png" alt="Faithfulness and robustness">
-    <p class="figure-caption"><strong>Faithfulness and robustness.</strong> Under adversarial prompt hints, RadAgent outperforms CT-Chat on robustness (0.84 vs 0.59) and faithfulness (0.48 vs 0.24), demonstrating more reliable and transparent reasoning.</p>
-  </div>
-
-  <div class="figure-block">
-    <img src="static/images/policy_trace.png" alt="Agent trace example">
-    <p class="figure-caption"><strong>Example agent trace.</strong> RadAgent iteratively verifies findings through sequential tool calls, accumulating evidence into a complete and auditable report.</p>
-  </div>
 </section>
 
 <div class="divider"></div>
