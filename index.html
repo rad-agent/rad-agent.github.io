@@ -1,11 +1,30 @@
 <!DOCTYPE html>
-<html data-theme="system">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="utf-8">
   <meta name="description" content="RadAgent: A tool-using AI agent for stepwise interpretation of chest computed tomography">
   <meta name="keywords" content="radiology, CT report generation, AI agent, reinforcement learning, tool use, chest CT, vision language model">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
   <title>RadAgent</title>
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('theme');
+        if (!t) t = 'light';
+        if (t === 'system') {
+          document.documentElement.setAttribute(
+            'data-theme',
+            window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+          );
+        } else {
+          document.documentElement.setAttribute('data-theme', t);
+        }
+      } catch (e) {
+        document.documentElement.setAttribute('data-theme', 'light');
+      }
+    })();
+  </script>
 
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./static/css/bulma.min.css">
@@ -30,7 +49,8 @@
     * { box-sizing: border-box; }
 
     /* ── Light theme (default) ── */
-    :root {
+    :root,
+    html[data-theme="light"] {
       --bg: #ffffff;
       --bg-code: #fafafa;
       --border-code: #eee;
@@ -54,8 +74,16 @@
       --footer-link-hover: #666;
     }
 
+    html[data-theme="light"] {
+      color-scheme: light;
+    }
+
+    html[data-theme="dark"] {
+      color-scheme: dark;
+    }
+
     /* ── Dark theme ── */
-    [data-theme="dark"] {
+    html[data-theme="dark"] {
       --bg: #000000;
       --bg-code: #111827;
       --border-code: #1e293b;
@@ -330,6 +358,12 @@
 
 <body>
 
+<div class="theme-toggle" role="group" aria-label="Color theme">
+  <button type="button" data-mode="light">Light</button>
+  <button type="button" data-mode="dark">Dark</button>
+  <button type="button" data-mode="system">Auto</button>
+</div>
+
 <!-- Hero -->
 <div class="hero-banner">
 <section class="hero-section">
@@ -409,33 +443,64 @@
 </footer>
 
 <script>
-function setTheme(mode) {
-  localStorage.setItem('theme', mode);
-  applyTheme(mode);
-  document.querySelectorAll('.theme-toggle button').forEach(b => b.classList.remove('active'));
-  document.querySelector('.theme-toggle button[onclick*="' + mode + '"]').classList.add('active');
-}
+(function () {
+  var root = document.documentElement;
+  var mq = window.matchMedia('(prefers-color-scheme: dark)');
 
-function applyTheme(mode) {
-  if (mode === 'system') {
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    document.documentElement.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
-  } else {
-    document.documentElement.setAttribute('data-theme', mode);
+  function metaColorScheme() {
+    var m = document.querySelector('meta[name="color-scheme"]');
+    if (!m) return;
+    var resolved = root.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+    m.setAttribute('content', resolved === 'dark' ? 'dark light' : 'light dark');
   }
-}
 
-// Init
-(function() {
-  const saved = localStorage.getItem('theme') || 'system';
+  function applyTheme(mode) {
+    if (mode === 'system') {
+      root.setAttribute('data-theme', mq.matches ? 'dark' : 'light');
+    } else {
+      root.setAttribute('data-theme', mode);
+    }
+    metaColorScheme();
+  }
+
+  function setTheme(mode) {
+    try {
+      localStorage.setItem('theme', mode);
+    } catch (e) {}
+    applyTheme(mode);
+    syncToggleUI(mode);
+  }
+
+  function syncToggleUI(savedMode) {
+    document.querySelectorAll('.theme-toggle button').forEach(function (b) {
+      b.classList.toggle('active', b.getAttribute('data-mode') === savedMode);
+    });
+  }
+
+  function currentStoredMode() {
+    try {
+      var t = localStorage.getItem('theme');
+      return t === 'dark' || t === 'system' ? t : 'light';
+    } catch (e) {
+      return 'light';
+    }
+  }
+
+  var saved = currentStoredMode();
   applyTheme(saved);
-  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function() {
-    if (localStorage.getItem('theme') === 'system') applyTheme('system');
+  syncToggleUI(saved);
+
+  mq.addEventListener('change', function () {
+    if (currentStoredMode() === 'system') {
+      applyTheme('system');
+    }
   });
-  document.addEventListener('DOMContentLoaded', function() {
-    document.querySelectorAll('.theme-toggle button').forEach(b => b.classList.remove('active'));
-    var btn = document.querySelector('.theme-toggle button[onclick*="' + saved + '"]');
-    if (btn) btn.classList.add('active');
+
+  document.querySelectorAll('.theme-toggle button').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var mode = btn.getAttribute('data-mode');
+      if (mode) setTheme(mode);
+    });
   });
 })();
 </script>
