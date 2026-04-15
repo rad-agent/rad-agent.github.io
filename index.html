@@ -5,8 +5,8 @@
   <meta name="description" content="RadAgent: A tool-using AI agent for stepwise interpretation of chest computed tomography">
   <meta name="keywords" content="radiology, CT report generation, AI agent, reinforcement learning, tool use, chest CT, vision language model">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="color-scheme" content="light">
-  <meta name="theme-color" content="#ffffff">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#000518">
   <title>RadAgent</title>
 
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -32,55 +32,55 @@
     * { box-sizing: border-box; }
 
     :root {
-      --bg: #ffffff;
-      --bg-code: #fafafa;
-      --border-code: #eee;
-      --text: #1a1a1a;
-      --text-title: #111;
-      --text-body: #222;
-      --text-strong: #111;
-      --text-author: #333;
-      --text-affil: #777;
-      --text-role: #999;
-      --text-link: #333;
+      --bg: #000518;
+      --bg-code: #050d2a;
+      --border-code: #172243;
+      --text: #e8edf4;
+      --text-title: #f4f7fb;
+      --text-body: #d9e1ee;
+      --text-strong: #ffffff;
+      --text-author: #e8edf4;
+      --text-affil: #aab8cc;
+      --text-role: #8ea0ba;
+      --text-link: #e8edf4;
       --text-link-hover: #2596be;
-      --text-sep: #ccc;
-      --text-label: #666;
-      --text-code: #333;
-      --text-footer: #bbb;
-      --border-link: #ccc;
-      --border-divider: #ddd;
-      --border-footer: #f0f0f0;
-      --footer-link: #999;
-      --footer-link-hover: #666;
+      --text-sep: #64748b;
+      --text-label: #9fb0c7;
+      --text-code: #d9e1ee;
+      --text-footer: #94a3b8;
+      --border-link: #64748b;
+      --border-divider: #1f2b4a;
+      --border-footer: #1a2645;
+      --footer-link: #aab8cc;
+      --footer-link-hover: #d9e1ee;
     }
 
     html {
-      color-scheme: light;
-      background: #fff;
+      color-scheme: dark;
+      background: var(--bg);
     }
 
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       color: var(--text);
       background: var(--bg);
-      color-scheme: light;
+      color-scheme: dark;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
 
     /* Hero: solid bar; fade is a fixed-height strip below (avoids tall heroes eating the gradient %) */
     .hero-banner {
-      background: #000000;
+      background: var(--bg);
     }
 
-    .hero-banner::after {
+    /* .hero-banner::after {
       content: '';
       display: block;
       height: 64px;
-      background: linear-gradient(to bottom, #000000, var(--bg));
+      background: linear-gradient(to bottom, #020a23, var(--bg));
       pointer-events: none;
-    }
+    } */
 
     .hero-banner .authors,
     .hero-banner .authors a { color: #e8edf4; }
@@ -279,7 +279,7 @@
 <div class="hero-banner">
 <section class="hero-section">
   <div class="logo-crop">
-    <img src="static/images/radagent-logo.jpg" alt="RadAgent" class="logo-img">
+    <img src="static/images/radagent-logo-original.png" alt="RadAgent" class="logo-img">
   </div>
 
   <h1 class="paper-title">
